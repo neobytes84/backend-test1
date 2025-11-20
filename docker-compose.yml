@@ -1,0 +1,83 @@
+
+
+services:
+  authors-db:
+    image: postgres:16
+    container_name: authors-db
+    restart: always
+    environment:
+      POSTGRES_USER: authors_user
+      POSTGRES_PASSWORD: authors_pass
+      POSTGRES_DB: authors_db
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U authors_user -d authors_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  books-db:
+    image: postgres:16
+    container_name: books-db
+    restart: always
+    environment:
+      POSTGRES_USER: books_user
+      POSTGRES_PASSWORD: books_pass
+      POSTGRES_DB: books_db
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U books_user -d books_db"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  authors-ms:
+    build: ./authors-ms
+    container_name: authors-ms
+    restart: always
+    depends_on:
+      authors-db:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgresql://authors_user:authors_pass@authors-db:5432/authors_db
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    ports:
+      - "8009:8000"
+
+  books-ms:
+    build: ./books-ms
+    container_name: books-ms
+    restart: always
+    depends_on:
+      books-db:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    environment:
+      DATABASE_URL: postgresql://books_user:books_pass@books-db:5432/books_db
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    ports:
+      - "8010:8001"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.6.1
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.1
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
