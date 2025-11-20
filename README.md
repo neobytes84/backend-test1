@@ -6,27 +6,27 @@ Gestión de autores
 
 # Gestión de libros
 
-Relación autor-libro mediante eventos Kafka
+- Relación autor-libro mediante eventos Kafka
 
-Persistencia en PostgreSQL
+- Persistencia en PostgreSQL
 
-APIs REST con FastAPI
+- APIs REST con FastAPI
 
 ## Tecnologías Utilizadas
 
-Python 3.11
+- Python 3.11
 
-FastAPI
+- FastAPI
 
-Uvicorn
+- Uvicorn
 
-SQLAlchemy
+- SQLAlchemy
 
-PostgreSQL
+- PostgreSQL
 
-Kafka + Zookeeper
+- Kafka + Zookeeper
 
-Docker & Docker Compose
+- Docker & Docker Compose
 
 ## Levantar el Proyecto
 
@@ -39,16 +39,16 @@ docker compose up -d --build
 
 Servicio	Puerto
 authors-ms	8009
-books-ms	8010
+books-ms	  8010
 authors-db	5433
-books-db	5434
-kafka	9092
+books-db	  5434
+kafka	      9092
 
 ## Swagger
 
-Authors-MS: http://localhost:8009/docs
+- Authors-MS: http://localhost:8009/docs
 
-Books-MS: http://localhost:8010/docs
+- Books-MS: http://localhost:8010/docs
 
 ## Endpoints Principales
 Authors-MS
@@ -78,3 +78,4 @@ Books-MS consume el evento y actualiza la relación en su base de datos.
 Ejecutar tests dentro de cada microservicio:
 
 pytest
+
