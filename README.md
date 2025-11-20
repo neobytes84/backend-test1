@@ -51,7 +51,7 @@ Servicio	Puerto
 - Books-MS: http://localhost:8010/docs
 
 ## Endpoints Principales
-Authors-MS
+- Authors-MS
 
 POST /authors/
 
@@ -59,7 +59,7 @@ GET /authors/
 
 POST /authors/{author_id}/books/{book_id} → asignar autor a libro
 
-Books-MS
+- Books-MS
 
 POST /books/
 
@@ -78,5 +78,6 @@ Books-MS consume el evento y actualiza la relación en su base de datos.
 Ejecutar tests dentro de cada microservicio:
 
 pytest
+
 
 
