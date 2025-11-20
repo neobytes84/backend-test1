@@ -38,11 +38,11 @@ docker compose up -d --build
 ## Servicios expuestos:
 
 Servicio	Puerto
-authors-ms	8009
-books-ms	  8010
-authors-db	5433
-books-db	  5434
-kafka	      9092
+- authors-ms	8009
+- books-ms	  8010
+- authors-db	5433
+- books-db	  5434
+- kafka	      9092
 
 ## Swagger
 
@@ -78,4 +78,5 @@ Books-MS consume el evento y actualiza la relación en su base de datos.
 Ejecutar tests dentro de cada microservicio:
 
 pytest
+
 
